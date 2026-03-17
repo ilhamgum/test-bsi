@@ -4,9 +4,12 @@ import { v4 as uuidv4 } from "uuid"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+import RequestStatus from "@/common/constants/request-status"
+import RequestType from "@/common/constants/request-type"
+
 import { SEED_INVENTORY } from "@/mocks/inventory/list"
 
-import { InventoryState, PendingRequest, RequestType, StockItem } from "./model"
+import { InventoryState, PendingRequest, StockItem } from "./model"
 
 const delay = (ms: number = 300) => new Promise((resolve) => setTimeout(resolve, ms))
 
@@ -30,10 +33,10 @@ export const useInventoryStore = create<InventoryState>()(
                 const newRequest: PendingRequest = {
                     id: uuidv4(),
                     type,
-                    itemId: type === "create" ? null : (originalData?.id ?? null),
+                    itemId: type === RequestType.CREATE ? null : (originalData?.id ?? null),
                     payload,
                     originalData: originalData ?? null,
-                    status: "pending",
+                    status: RequestStatus.PENDING,
                     createdAt: new Date().toISOString(),
                 }
 
@@ -58,7 +61,7 @@ export const useInventoryStore = create<InventoryState>()(
                 let updatedItems = [...state.items]
 
                 switch (request.type) {
-                    case "create": {
+                    case RequestType.CREATE: {
                         const newItem: StockItem = {
                             id: uuidv4(),
                             sku: request.payload.sku ?? "",
@@ -72,13 +75,13 @@ export const useInventoryStore = create<InventoryState>()(
                         updatedItems.push(newItem)
                         break
                     }
-                    case "update": {
+                    case RequestType.UPDATE: {
                         updatedItems = updatedItems.map((item) =>
                             item.id === request.itemId ? { ...item, ...request.payload } : item
                         )
                         break
                     }
-                    case "delete": {
+                    case RequestType.DELETE: {
                         updatedItems = updatedItems.filter((item) => item.id !== request.itemId)
                         break
                     }
@@ -87,7 +90,7 @@ export const useInventoryStore = create<InventoryState>()(
                 set({
                     items: updatedItems,
                     pendingRequests: state.pendingRequests.map((r) =>
-                        r.id === requestId ? { ...r, status: "approved" as const } : r
+                        r.id === requestId ? { ...r, status: RequestStatus.APPROVED } : r
                     ),
                     isLoading: false,
                 })
@@ -102,7 +105,7 @@ export const useInventoryStore = create<InventoryState>()(
                         r.id === requestId
                             ? {
                                   ...r,
-                                  status: "rejected" as const,
+                                  status: RequestStatus.REJECTED,
                                   rejectionReason: reason,
                               }
                             : r

@@ -6,6 +6,9 @@ import Button from "@/components/atoms/button"
 import SearchBar from "@/components/molecules/search-bar"
 import SortHeader, { SortDirection } from "@/components/molecules/sort-header"
 
+import SortOrder from "@/common/constants/sort-order"
+import UserRole from "@/common/constants/user-role"
+
 import { useAuthStore } from "@/features/auth/store"
 import { StockItem } from "@/features/inventory/model"
 
@@ -29,14 +32,14 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
 
     const handleSort = (key: string) => {
         if (sortKey === key) {
-            if (sortDir === "asc") setSortDir("desc")
-            else if (sortDir === "desc") {
+            if (sortDir === SortOrder.ASC) setSortDir(SortOrder.DESC)
+            else if (sortDir === SortOrder.DESC) {
                 setSortKey(null)
                 setSortDir(null)
             }
         } else {
             setSortKey(key)
-            setSortDir("asc")
+            setSortDir(SortOrder.ASC)
         }
         setPage(1)
     }
@@ -62,10 +65,10 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                 const aVal = a[sortKey as keyof StockItem]
                 const bVal = b[sortKey as keyof StockItem]
                 if (typeof aVal === "string" && typeof bVal === "string") {
-                    return sortDir === "asc" ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
+                    return sortDir === SortOrder.ASC ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
                 }
                 if (typeof aVal === "number" && typeof bVal === "number") {
-                    return sortDir === "asc" ? aVal - bVal : bVal - aVal
+                    return sortDir === SortOrder.ASC ? aVal - bVal : bVal - aVal
                 }
                 return 0
             })
@@ -99,7 +102,7 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                         placeholder="Search by SKU, name, category, supplier..."
                     />
                 </div>
-                {currentRole === "staff" && (
+                {currentRole === UserRole.STAFF && (
                     <Button onClick={onAdd} className={styles["add-button-wrapper"]}>
                         + Add Stock
                     </Button>
@@ -121,7 +124,7 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                                     />
                                 </th>
                             ))}
-                            {currentRole === "staff" && (
+                            {currentRole === UserRole.STAFF && (
                                 <th className={styles["table-header-cell-actions"]} scope="col">
                                     Actions
                                 </th>
@@ -132,7 +135,7 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                         {paginatedItems.length === 0 ? (
                             <tr>
                                 <td
-                                    colSpan={columns.length + (currentRole === "staff" ? 1 : 0)}
+                                    colSpan={columns.length + (currentRole === UserRole.STAFF ? 1 : 0)}
                                     className={styles["empty-cell"]}
                                 >
                                     No items found.
@@ -147,10 +150,14 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                                     <td className={styles["cell-price-quantity"]}>${item.price.toFixed(2)}</td>
                                     <td className={styles["cell-price-quantity"]}>{item.quantity}</td>
                                     <td className={styles["cell-category"]}>{item.supplier}</td>
-                                    {currentRole === "staff" && (
+                                    {currentRole === UserRole.STAFF && (
                                         <td className={styles["cell-actions"]}>
                                             <div className={styles["actions-wrapper"]}>
-                                                <Button variant="ghost" onClick={() => onEdit(item)} className={styles["edit-button"]}>
+                                                <Button
+                                                    variant="ghost"
+                                                    onClick={() => onEdit(item)}
+                                                    className={styles["edit-button"]}
+                                                >
                                                     Edit
                                                 </Button>
                                                 <Button

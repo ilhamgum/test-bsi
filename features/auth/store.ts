@@ -2,9 +2,11 @@
 
 import { create } from "zustand"
 
-import { AuthState, UserRole } from "./model"
+import UserRole from "@/common/constants/user-role"
+
+import { AuthState } from "./model"
 
 export const useAuthStore = create<AuthState>((set) => ({
-    currentRole: "staff" as UserRole,
+    currentRole: UserRole.STAFF as UserRole,
     setRole: (role: UserRole) => set({ currentRole: role }),
 }))

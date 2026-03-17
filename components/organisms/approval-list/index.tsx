@@ -6,6 +6,9 @@ import Badge from "@/components/atoms/badge"
 import ApprovalActions from "@/components/organisms/approval-actions"
 import DiffView from "@/components/organisms/diff-view"
 
+import RequestStatus from "@/common/constants/request-status"
+import RequestType from "@/common/constants/request-type"
+
 import { PendingRequest } from "@/features/inventory/model"
 
 import styles from "./styles.module.css"
@@ -20,16 +23,16 @@ interface ApprovalListProps {
 export default function ApprovalList({ requests, onApprove, onReject, isLoading }: ApprovalListProps) {
     const [expandedId, setExpandedId] = useState<string | null>(null)
 
-    const pendingRequests = requests.filter((r) => r.status === "pending")
-    const processedRequests = requests.filter((r) => r.status !== "pending")
+    const pendingRequests = requests.filter((r) => r.status === RequestStatus.PENDING)
+    const processedRequests = requests.filter((r) => r.status !== RequestStatus.PENDING)
 
-    const typeBadgeVariant = (type: string) => {
+    const typeBadgeVariant = (type: RequestType) => {
         switch (type) {
-            case "create":
+            case RequestType.CREATE:
                 return "success" as const
-            case "update":
+            case RequestType.UPDATE:
                 return "warning" as const
-            case "delete":
+            case RequestType.DELETE:
                 return "danger" as const
             default:
                 return "default" as const
@@ -39,7 +42,7 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
     const renderRequestRow = (request: PendingRequest, showActions: boolean) => {
         const isExpanded = expandedId === request.id
         const itemName =
-            request.type === "create"
+            request.type === RequestType.CREATE
                 ? request.payload.productName || "New Item"
                 : request.originalData?.productName || "Unknown"
 
@@ -60,8 +63,10 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
                     <div className={styles["summary-left"]}>
                         <Badge variant={typeBadgeVariant(request.type)}>{request.type.toUpperCase()}</Badge>
                         <span className={styles["item-name"]}>{itemName}</span>
-                        {request.status !== "pending" && (
-                            <Badge variant={request.status === "approved" ? "success" : "danger"}>{request.status}</Badge>
+                        {request.status !== RequestStatus.PENDING && (
+                            <Badge variant={request.status === RequestStatus.APPROVED ? "success" : "danger"}>
+                                {request.status}
+                            </Badge>
                         )}
                     </div>
                     <div className={styles["summary-right"]}>
@@ -106,9 +111,11 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
                             </div>
                         )}
 
-                        {request.type === "update" && <DiffView original={request.originalData} updated={request.payload} />}
+                        {request.type === RequestType.UPDATE && (
+                            <DiffView original={request.originalData} updated={request.payload} />
+                        )}
 
-                        {request.type === "delete" && request.originalData && (
+                        {request.type === RequestType.DELETE && request.originalData && (
                             <div className={styles["delete-warning"]}>
                                 This will permanently delete <strong>{request.originalData.productName}</strong> (SKU:{" "}
                                 {request.originalData.sku})

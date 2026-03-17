@@ -55,7 +55,12 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
                     </h2>
                     <button onClick={onClose} className={styles["close-button"]} aria-label="Close modal">
                         <svg className={styles["close-icon"]} viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                            />
                         </svg>
                     </button>
                 </div>

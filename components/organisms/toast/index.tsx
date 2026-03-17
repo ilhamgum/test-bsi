@@ -2,9 +2,11 @@
 
 import { createContext, useCallback, useContext, useState } from "react"
 
+import ToastType from "@/common/constants/toast-type"
+
 import styles from "./styles.module.css"
 
-type ToastType = "success" | "error" | "info"
+export { ToastType }
 
 interface Toast {
     id: number
@@ -27,7 +29,7 @@ let toastId = 0
 export function ToastProvider({ children }: { children: React.ReactNode }) {
     const [toasts, setToasts] = useState<Toast[]>([])
 
-    const showToast = useCallback((message: string, type: ToastType = "success") => {
+    const showToast = useCallback((message: string, type: ToastType = ToastType.SUCCESS) => {
         const id = ++toastId
         setToasts((prev) => [...prev, { id, message, type }])
         setTimeout(() => {
@@ -36,9 +38,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     const typeStyles: Record<ToastType, string> = {
-        success: styles["success"],
-        error: styles["error"],
-        info: styles["info"],
+        [ToastType.SUCCESS]: styles["success"],
+        [ToastType.ERROR]: styles["error"],
+        [ToastType.INFO]: styles["info"],
     }
 
     return (
@@ -46,11 +48,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             {children}
             <div className={styles["container"]}>
                 {toasts.map((toast) => (
-                    <div
-                        key={toast.id}
-                        className={`${styles["toast"]} ${typeStyles[toast.type]}`}
-                        role="alert"
-                    >
+                    <div key={toast.id} className={`${styles["toast"]} ${typeStyles[toast.type]}`} role="alert">
                         {toast.message}
                     </div>
                 ))}

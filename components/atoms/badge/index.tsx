@@ -19,7 +19,5 @@ const variantStyles: Record<BadgeVariant, string> = {
 }
 
 export default function Badge({ variant = "default", children, className = "" }: BadgeProps) {
-    return (
-        <span className={`${styles["badge"]} ${variantStyles[variant]} ${className}`}>{children}</span>
-    )
+    return <span className={`${styles["badge"]} ${variantStyles[variant]} ${className}`}>{children}</span>
 }

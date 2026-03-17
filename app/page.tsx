@@ -8,6 +8,9 @@ import StockFormModal from "@/components/organisms/stock-form-modal"
 import { useToast } from "@/components/organisms/toast"
 import DashboardLayout from "@/components/templates/dashboard-layout"
 
+import RequestType from "@/common/constants/request-type"
+import ToastType from "@/common/constants/toast-type"
+
 import { StockItem } from "@/features/inventory/model"
 import { useInventoryStore } from "@/features/inventory/store"
 
@@ -43,11 +46,11 @@ export default function InventoryPage() {
 
     const handleFormSubmit = async (data: Partial<StockItem>) => {
         if (editItem) {
-            await createRequest("update", data, editItem)
-            showToast("Update request submitted for approval", "success")
+            await createRequest(RequestType.UPDATE, data, editItem)
+            showToast("Update request submitted for approval", ToastType.SUCCESS)
         } else {
-            await createRequest("create", data)
-            showToast("Creation request submitted for approval", "success")
+            await createRequest(RequestType.CREATE, data)
+            showToast("Creation request submitted for approval", ToastType.SUCCESS)
         }
         setShowForm(false)
         setEditItem(null)
@@ -55,8 +58,8 @@ export default function InventoryPage() {
 
     const handleDeleteConfirm = async () => {
         if (deleteItem) {
-            await createRequest("delete", {}, deleteItem)
-            showToast("Deletion request submitted for approval", "success")
+            await createRequest(RequestType.DELETE, {}, deleteItem)
+            showToast("Deletion request submitted for approval", ToastType.SUCCESS)
         }
         setDeleteItem(null)
     }

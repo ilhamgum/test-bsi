@@ -34,7 +34,14 @@ export default function Button({
         >
             {isLoading && (
                 <svg className={styles["spinner"]} viewBox="0 0 24 24" fill="none">
-                    <circle className={styles["opacity-25"]} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <circle
+                        className={styles["opacity-25"]}
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                    />
                     <path
                         className={styles["opacity-75"]}
                         fill="currentColor"

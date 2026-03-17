@@ -3,6 +3,9 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import RequestStatus from "@/common/constants/request-status"
+import UserRole from "@/common/constants/user-role"
+
 import { useAuthStore } from "@/features/auth/store"
 import { useInventoryStore } from "@/features/inventory/store"
 
@@ -16,7 +19,9 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     const pathname = usePathname()
     const currentRole = useAuthStore((s) => s.currentRole)
-    const pendingCount = useInventoryStore((s) => s.pendingRequests.filter((r) => r.status === "pending").length)
+    const pendingCount = useInventoryStore(
+        (s) => s.pendingRequests.filter((r) => r.status === RequestStatus.PENDING).length
+    )
 
     const links = [
         { href: "/", label: "Inventory", icon: InventoryIcon, show: true },
@@ -24,7 +29,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             href: "/approvals",
             label: "Approvals",
             icon: ApprovalIcon,
-            show: currentRole === "officer",
+            show: currentRole === UserRole.OFFICER,
             badge: pendingCount > 0 ? pendingCount : null,
         },
         { href: "/charts", label: "Stock Charts", icon: ChartIcon, show: true },
@@ -35,9 +40,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             {/* Mobile overlay */}
             {isOpen && <div className={styles["overlay"]} onClick={onClose} />}
 
-            <aside
-                className={`${styles["aside"]} ${isOpen ? styles["aside-open"] : ""}`}
-            >
+            <aside className={`${styles["aside"]} ${isOpen ? styles["aside-open"] : ""}`}>
                 <nav className={styles["nav"]} aria-label="Main navigation">
                     {links
                         .filter((link) => link.show)

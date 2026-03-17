@@ -8,6 +8,9 @@ import ApprovalList from "@/components/organisms/approval-list"
 import { useToast } from "@/components/organisms/toast"
 import DashboardLayout from "@/components/templates/dashboard-layout"
 
+import ToastType from "@/common/constants/toast-type"
+import UserRole from "@/common/constants/user-role"
+
 import { useAuthStore } from "@/features/auth/store"
 import { useInventoryStore } from "@/features/inventory/store"
 
@@ -25,19 +28,19 @@ export default function ApprovalsPage() {
     }, [])
 
     useEffect(() => {
-        if (mounted && currentRole !== "officer") {
+        if (mounted && currentRole !== UserRole.OFFICER) {
             router.push("/")
         }
     }, [currentRole, router, mounted])
 
     const handleApprove = async (requestId: string) => {
         await approveRequest(requestId)
-        showToast("Request approved successfully", "success")
+        showToast("Request approved successfully", ToastType.SUCCESS)
     }
 
     const handleReject = async (requestId: string, reason?: string) => {
         await rejectRequest(requestId, reason)
-        showToast("Request rejected", "info")
+        showToast("Request rejected", ToastType.INFO)
     }
 
     if (!mounted) {
@@ -48,7 +51,7 @@ export default function ApprovalsPage() {
         )
     }
 
-    if (currentRole !== "officer") {
+    if (currentRole !== UserRole.OFFICER) {
         return (
             <DashboardLayout>
                 <div className={styles["status-container"]}>Redirecting...</div>

@@ -1,3 +1,8 @@
+import RequestStatus from "@/common/constants/request-status"
+import RequestType from "@/common/constants/request-type"
+
+export { RequestStatus, RequestType }
+
 export interface StockItem {
     id: string
     sku: string
@@ -7,10 +12,8 @@ export interface StockItem {
     quantity: number
     supplier: string
     createdAt: string
+    lastUpdated?: string
 }
-
-export type RequestType = "create" | "update" | "delete"
-export type RequestStatus = "pending" | "approved" | "rejected"
 
 export interface PendingRequest {
     id: string
@@ -27,8 +30,6 @@ export interface InventoryState {
     items: StockItem[]
     pendingRequests: PendingRequest[]
     isLoading: boolean
-
-    // ASYNC MOCK API ACTIONS
     fetchItems: () => Promise<void>
     createRequest: (type: RequestType, payload: Partial<StockItem>, originalData?: StockItem | null) => Promise<void>
     approveRequest: (requestId: string) => Promise<void>
