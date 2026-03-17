@@ -43,19 +43,21 @@ export default function StockFormModal({ isOpen, onClose, onSubmit, initialData,
     const isEdit = !!initialData
 
     useEffect(() => {
-        if (initialData) {
-            setForm({
-                sku: initialData.sku,
-                productName: initialData.productName,
-                category: initialData.category,
-                price: initialData.price.toString(),
-                quantity: initialData.quantity.toString(),
-                supplier: initialData.supplier,
-            })
-        } else {
-            setForm(EMPTY_FORM)
-        }
         setErrors({})
+
+        if (!initialData) {
+            setForm(EMPTY_FORM)
+            return
+        }
+
+        setForm({
+            sku: initialData.sku,
+            productName: initialData.productName,
+            category: initialData.category,
+            price: initialData.price.toString(),
+            quantity: initialData.quantity.toString(),
+            supplier: initialData.supplier,
+        })
     }, [initialData, isOpen])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

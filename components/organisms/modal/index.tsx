@@ -15,12 +15,14 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
     const modalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        if (isOpen) {
-            modalRef.current?.focus()
-            document.body.style.overflow = "hidden"
-        } else {
+        if (!isOpen) {
             document.body.style.overflow = ""
+            return
         }
+
+        modalRef.current?.focus()
+        document.body.style.overflow = "hidden"
+
         return () => {
             document.body.style.overflow = ""
         }

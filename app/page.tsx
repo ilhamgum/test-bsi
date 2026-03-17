@@ -48,10 +48,13 @@ export default function InventoryPage() {
         if (editItem) {
             await createRequest(RequestType.UPDATE, data, editItem)
             showToast("Update request submitted for approval", ToastType.SUCCESS)
-        } else {
-            await createRequest(RequestType.CREATE, data)
-            showToast("Creation request submitted for approval", ToastType.SUCCESS)
+            setShowForm(false)
+            setEditItem(null)
+            return
         }
+
+        await createRequest(RequestType.CREATE, data)
+        showToast("Creation request submitted for approval", ToastType.SUCCESS)
         setShowForm(false)
         setEditItem(null)
     }

@@ -31,17 +31,23 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
     const currentRole = useAuthStore((s) => s.currentRole)
 
     const handleSort = (key: string) => {
-        if (sortKey === key) {
-            if (sortDir === SortOrder.ASC) setSortDir(SortOrder.DESC)
-            else if (sortDir === SortOrder.DESC) {
-                setSortKey(null)
-                setSortDir(null)
-            }
-        } else {
+        setPage(1)
+
+        if (sortKey !== key) {
             setSortKey(key)
             setSortDir(SortOrder.ASC)
+            return
         }
-        setPage(1)
+
+        if (sortDir === SortOrder.ASC) {
+            setSortDir(SortOrder.DESC)
+            return
+        }
+
+        if (sortDir === SortOrder.DESC) {
+            setSortKey(null)
+            setSortDir(null)
+        }
     }
 
     const filteredAndSorted = useMemo(() => {
