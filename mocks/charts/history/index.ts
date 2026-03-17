@@ -1,39 +1,39 @@
-import { StockHistory, StockHistoryMap } from "@/features/charts/model";
-import { StockItem } from "@/features/inventory/model";
+import { StockHistory, StockHistoryMap } from "@/features/charts/model"
+import { StockItem } from "@/features/inventory/model"
 
 function generateHistoryForItem(item: StockItem): StockHistory[] {
-  const history: StockHistory[] = [];
-  const now = new Date();
-  let quantity = item.quantity;
+    const history: StockHistory[] = []
+    const now = new Date()
+    let quantity = item.quantity
 
-  for (let i = 29; i >= 0; i--) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - i);
+    for (let i = 29; i >= 0; i--) {
+        const date = new Date(now)
+        date.setDate(date.getDate() - i)
 
-    // Random fluctuation: -15% to +15% of current quantity
-    const change = Math.floor(quantity * (Math.random() * 0.3 - 0.15));
-    quantity = Math.max(0, quantity + change);
+        // RANDOM FLUCTUATION: -15% TO +15% OF CURRENT QUANTITY
+        const change = Math.floor(quantity * (Math.random() * 0.3 - 0.15))
+        quantity = Math.max(0, quantity + change)
 
-    history.push({
-      date: date.toISOString().split("T")[0],
-      quantity,
-    });
-  }
+        history.push({
+            date: date.toISOString().split("T")[0],
+            quantity,
+        })
+    }
 
-  // Make the last entry match the current quantity
-  if (history.length > 0) {
-    history[history.length - 1].quantity = item.quantity;
-  }
+    // MAKE THE LAST ENTRY MATCH THE CURRENT QUANTITY
+    if (history.length > 0) {
+        history[history.length - 1].quantity = item.quantity
+    }
 
-  return history;
+    return history
 }
 
 export function generateStockHistory(items: StockItem[]): StockHistoryMap {
-  const historyMap: StockHistoryMap = {};
+    const historyMap: StockHistoryMap = {}
 
-  for (const item of items) {
-    historyMap[item.id] = generateHistoryForItem(item);
-  }
+    for (const item of items) {
+        historyMap[item.id] = generateHistoryForItem(item)
+    }
 
-  return historyMap;
+    return historyMap
 }

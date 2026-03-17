@@ -1,12 +1,9 @@
-"use client";
+"use client"
 
-import React from "react";
-import { ToastProvider } from "@/components/organisms/toast";
+import { type ReactNode } from "react"
 
-export default function ClientProviders({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <ToastProvider>{children}</ToastProvider>;
+import { ToastProvider } from "@/components/organisms/toast"
+
+export default function ClientProviders({ children }: { children: ReactNode }) {
+    return <ToastProvider>{children}</ToastProvider>
 }

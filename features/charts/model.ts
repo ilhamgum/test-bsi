@@ -1,6 +1,6 @@
 export interface StockHistory {
-  date: string;
-  quantity: number;
+    date: string
+    quantity: number
 }
 
-export type StockHistoryMap = Record<string, StockHistory[]>;
+export type StockHistoryMap = Record<string, StockHistory[]>
