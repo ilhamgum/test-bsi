@@ -1,0 +1,25 @@
+@reference "../../../app/globals.css";
+
+.overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50;
+}
+
+.modal-content {
+    @apply mx-4 w-full max-w-lg rounded-lg bg-white p-6 shadow-lg;
+}
+
+.header {
+    @apply mb-4 flex items-center justify-between;
+}
+
+.title {
+    @apply text-lg font-semibold text-gray-900;
+}
+
+.close-button {
+    @apply rounded p-1 text-gray-400 hover:text-gray-600;
+}
+
+.close-icon {
+    @apply h-5 w-5;
+}

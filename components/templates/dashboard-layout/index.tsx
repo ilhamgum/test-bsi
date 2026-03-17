@@ -5,6 +5,8 @@ import { useState } from "react"
 import Navbar from "@/components/organisms/navbar"
 import Sidebar from "@/components/organisms/sidebar"
 
+import styles from "./styles.module.css"
+
 interface DashboardLayoutProps {
     children: React.ReactNode
 }
@@ -13,11 +15,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
     return (
-        <div className="flex h-screen flex-col">
+        <div className={styles["container"]}>
             <Navbar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
-            <div className="flex flex-1 overflow-hidden">
+            <div className={styles["content-wrapper"]}>
                 <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-                <main className="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-6">{children}</main>
+                <main className={styles["main"]}>{children}</main>
             </div>
         </div>
     )

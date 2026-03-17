@@ -1,0 +1,33 @@
+@reference "../../../app/globals.css";
+
+.button {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed;
+}
+
+.primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-300;
+}
+
+.secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:bg-gray-100;
+}
+
+.danger {
+    @apply bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300;
+}
+
+.ghost {
+    @apply bg-transparent text-gray-600 hover:bg-gray-100 disabled:text-gray-300;
+}
+
+.spinner {
+    @apply h-4 w-4 animate-spin;
+}
+
+.opacity-25 {
+    @apply opacity-25;
+}
+
+.opacity-75 {
+    @apply opacity-75;
+}

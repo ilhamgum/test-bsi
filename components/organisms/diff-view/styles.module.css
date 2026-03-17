@@ -1,0 +1,45 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply overflow-x-auto rounded-md border border-gray-200;
+}
+
+.table {
+    @apply min-w-full divide-y divide-gray-200 text-sm;
+}
+
+.thead {
+    @apply bg-gray-50;
+}
+
+.th {
+    @apply px-4 py-2 text-left font-medium text-gray-500;
+}
+
+.tbody {
+    @apply divide-y divide-gray-200;
+}
+
+.row-changed {
+    @apply bg-yellow-50;
+}
+
+.td-label {
+    @apply px-4 py-2 font-medium text-gray-700;
+}
+
+.td {
+    @apply px-4 py-2;
+}
+
+.val-old {
+    @apply text-red-600 line-through;
+}
+
+.val-unchanged {
+    @apply text-gray-600;
+}
+
+.val-new {
+    @apply font-medium text-green-600;
+}

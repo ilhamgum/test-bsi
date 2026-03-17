@@ -1,0 +1,37 @@
+@reference "../../../app/globals.css";
+
+.wrapper {
+    @apply flex flex-col gap-1;
+}
+
+.label {
+    @apply text-sm font-medium text-gray-700;
+}
+
+.input {
+    @apply rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50 disabled:text-gray-500;
+}
+
+.input-error {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+.select {
+    @apply rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50;
+}
+
+.select-error {
+    @apply border-red-500;
+}
+
+.textarea {
+    @apply rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50;
+}
+
+.textarea-error {
+    @apply border-red-500;
+}
+
+.error-text {
+    @apply text-xs text-red-600;
+}

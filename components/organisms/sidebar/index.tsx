@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation"
 import { useAuthStore } from "@/features/auth/store"
 import { useInventoryStore } from "@/features/inventory/store"
 
+import styles from "./styles.module.css"
+
 interface SidebarProps {
     isOpen: boolean
     onClose: () => void
@@ -31,14 +33,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     return (
         <>
             {/* Mobile overlay */}
-            {isOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={onClose} />}
+            {isOpen && <div className={styles["overlay"]} onClick={onClose} />}
 
             <aside
-                className={`fixed inset-y-0 left-0 z-40 w-64 transform border-r border-gray-200 bg-white pt-16 transition-transform duration-200 lg:static lg:z-0 lg:translate-x-0 lg:pt-0 ${
-                    isOpen ? "translate-x-0" : "-translate-x-full"
-                }`}
+                className={`${styles["aside"]} ${isOpen ? styles["aside-open"] : ""}`}
             >
-                <nav className="flex flex-col gap-1 p-4" aria-label="Main navigation">
+                <nav className={styles["nav"]} aria-label="Main navigation">
                     {links
                         .filter((link) => link.show)
                         .map((link) => {
@@ -48,20 +48,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                     key={link.href}
                                     href={link.href}
                                     onClick={onClose}
-                                    className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                                        isActive
-                                            ? "bg-blue-50 text-blue-700"
-                                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                    className={`${styles["link"]} ${
+                                        isActive ? styles["link-active"] : styles["link-inactive"]
                                     }`}
                                     aria-current={isActive ? "page" : undefined}
                                 >
                                     <link.icon />
                                     {link.label}
-                                    {link.badge && (
-                                        <span className="ml-auto rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
-                                            {link.badge}
-                                        </span>
-                                    )}
+                                    {link.badge && <span className={styles["badge"]}>{link.badge}</span>}
                                 </Link>
                             )
                         })}
@@ -73,7 +67,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
 function InventoryIcon() {
     return (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={styles["icon"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -86,7 +80,7 @@ function InventoryIcon() {
 
 function ApprovalIcon() {
     return (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={styles["icon"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -99,7 +93,7 @@ function ApprovalIcon() {
 
 function ChartIcon() {
     return (
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={styles["icon"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

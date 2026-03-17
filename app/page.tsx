@@ -11,6 +11,8 @@ import DashboardLayout from "@/components/templates/dashboard-layout"
 import { StockItem } from "@/features/inventory/model"
 import { useInventoryStore } from "@/features/inventory/store"
 
+import styles from "./styles.module.css"
+
 export default function InventoryPage() {
     const { items, isLoading, fetchItems, createRequest } = useInventoryStore()
     const { showToast } = useToast()
@@ -62,17 +64,17 @@ export default function InventoryPage() {
     if (!mounted) {
         return (
             <DashboardLayout>
-                <div className="flex h-64 items-center justify-center text-sm text-gray-500">Loading...</div>
+                <div className={styles["loading-container"]}>Loading...</div>
             </DashboardLayout>
         )
     }
 
     return (
         <DashboardLayout>
-            <div className="space-y-4">
-                <div>
-                    <h2 className="text-xl font-semibold text-gray-900">Inventory</h2>
-                    <p className="text-sm text-gray-500">Manage stock items. Changes require officer approval.</p>
+            <div className={styles["container"]}>
+                <div className={styles["header"]}>
+                    <h2 className={styles["title"]}>Inventory</h2>
+                    <p className={styles["description"]}>Manage stock items. Changes require officer approval.</p>
                 </div>
 
                 <InventoryTable items={items} onAdd={handleAdd} onEdit={handleEdit} onDelete={handleDelete} />

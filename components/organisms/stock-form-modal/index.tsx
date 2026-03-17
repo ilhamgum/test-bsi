@@ -8,6 +8,8 @@ import Modal from "@/components/organisms/modal"
 
 import { StockItem } from "@/features/inventory/model"
 
+import styles from "./styles.module.css"
+
 interface StockFormModalProps {
     isOpen: boolean
     onClose: () => void
@@ -92,7 +94,7 @@ export default function StockFormModal({ isOpen, onClose, onSubmit, initialData,
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title={isEdit ? "Edit Stock Item" : "Add New Stock Item"}>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className={styles["form"]}>
                 <FormField
                     label="SKU"
                     name="sku"
@@ -120,7 +122,7 @@ export default function StockFormModal({ isOpen, onClose, onSubmit, initialData,
                     placeholder="e.g., Electronics"
                     required
                 />
-                <div className="grid grid-cols-2 gap-4">
+                <div className={styles["grid-cols-2"]}>
                     <FormField
                         label="Price ($)"
                         name="price"
@@ -152,7 +154,7 @@ export default function StockFormModal({ isOpen, onClose, onSubmit, initialData,
                     required
                 />
 
-                <div className="flex justify-end gap-3 pt-2">
+                <div className={styles["actions-container"]}>
                     <Button variant="secondary" type="button" onClick={onClose}>
                         Cancel
                     </Button>

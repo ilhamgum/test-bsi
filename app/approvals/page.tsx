@@ -11,6 +11,8 @@ import DashboardLayout from "@/components/templates/dashboard-layout"
 import { useAuthStore } from "@/features/auth/store"
 import { useInventoryStore } from "@/features/inventory/store"
 
+import styles from "./styles.module.css"
+
 export default function ApprovalsPage() {
     const currentRole = useAuthStore((s) => s.currentRole)
     const { pendingRequests, isLoading, approveRequest, rejectRequest } = useInventoryStore()
@@ -41,7 +43,7 @@ export default function ApprovalsPage() {
     if (!mounted) {
         return (
             <DashboardLayout>
-                <div className="flex h-64 items-center justify-center text-sm text-gray-500">Loading...</div>
+                <div className={styles["status-container"]}>Loading...</div>
             </DashboardLayout>
         )
     }
@@ -49,17 +51,17 @@ export default function ApprovalsPage() {
     if (currentRole !== "officer") {
         return (
             <DashboardLayout>
-                <div className="flex h-64 items-center justify-center text-sm text-gray-500">Redirecting...</div>
+                <div className={styles["status-container"]}>Redirecting...</div>
             </DashboardLayout>
         )
     }
 
     return (
         <DashboardLayout>
-            <div className="space-y-4">
-                <div>
-                    <h2 className="text-xl font-semibold text-gray-900">Approval Dashboard</h2>
-                    <p className="text-sm text-gray-500">Review and approve or reject pending stock changes.</p>
+            <div className={styles["container"]}>
+                <div className={styles["header"]}>
+                    <h2 className={styles["title"]}>Approval Dashboard</h2>
+                    <p className={styles["description"]}>Review and approve or reject pending stock changes.</p>
                 </div>
 
                 <ApprovalList

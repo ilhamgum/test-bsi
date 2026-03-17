@@ -1,5 +1,7 @@
 "use client"
 
+import styles from "./styles.module.css"
+
 export type SortDirection = "asc" | "desc" | null
 
 interface SortHeaderProps {
@@ -16,22 +18,22 @@ export default function SortHeader({ label, sortKey, currentSortKey, currentDire
     return (
         <button
             onClick={() => onSort(sortKey)}
-            className="inline-flex items-center gap-1 text-left text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-700"
+            className={styles["container"]}
             aria-label={`Sort by ${label}`}
         >
             {label}
-            <span className="flex flex-col">
+            <span className={styles["icon-wrapper"]}>
                 <svg
-                    className={`h-3 w-3 ${isActive && currentDirection === "asc" ? "text-blue-600" : "text-gray-300"}`}
+                    className={`${styles["icon"]} ${isActive && currentDirection === "asc" ? styles["icon-active"] : styles["icon-inactive"]}`}
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >
                     <path d="M12 5l7 7H5z" />
                 </svg>
                 <svg
-                    className={`-mt-1 h-3 w-3 ${
-                        isActive && currentDirection === "desc" ? "text-blue-600" : "text-gray-300"
-                    }`}
+                    className={`${styles["icon"]} ${
+                        isActive && currentDirection === "desc" ? styles["icon-active"] : styles["icon-inactive"]
+                    } -mt-1`}
                     viewBox="0 0 24 24"
                     fill="currentColor"
                 >

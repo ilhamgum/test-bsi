@@ -9,6 +9,8 @@ import SortHeader, { SortDirection } from "@/components/molecules/sort-header"
 import { useAuthStore } from "@/features/auth/store"
 import { StockItem } from "@/features/inventory/model"
 
+import styles from "./styles.module.css"
+
 interface InventoryTableProps {
     items: StockItem[]
     onAdd: () => void
@@ -85,9 +87,9 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
     ]
 
     return (
-        <div className="space-y-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="w-full sm:max-w-sm">
+        <div className={styles["container"]}>
+            <div className={styles["controls-container"]}>
+                <div className={styles["search-wrapper"]}>
                     <SearchBar
                         value={search}
                         onChange={(val) => {
@@ -98,18 +100,18 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                     />
                 </div>
                 {currentRole === "staff" && (
-                    <Button onClick={onAdd} className="shrink-0">
+                    <Button onClick={onAdd} className={styles["add-button-wrapper"]}>
                         + Add Stock
                     </Button>
                 )}
             </div>
 
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-                <table className="min-w-full divide-y divide-gray-200" role="table">
-                    <thead className="bg-gray-50">
+            <div className={styles["table-container"]}>
+                <table className={styles["table"]} role="table">
+                    <thead className={styles["table-head"]}>
                         <tr>
                             {columns.map((col) => (
-                                <th key={col.key} className="px-4 py-3 text-left" scope="col">
+                                <th key={col.key} className={styles["table-header-cell"]} scope="col">
                                     <SortHeader
                                         label={col.label}
                                         sortKey={col.key}
@@ -120,54 +122,41 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
                                 </th>
                             ))}
                             {currentRole === "staff" && (
-                                <th
-                                    className="px-4 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
-                                    scope="col"
-                                >
+                                <th className={styles["table-header-cell-actions"]} scope="col">
                                     Actions
                                 </th>
                             )}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
+                    <tbody className={styles["table-body"]}>
                         {paginatedItems.length === 0 ? (
                             <tr>
                                 <td
                                     colSpan={columns.length + (currentRole === "staff" ? 1 : 0)}
-                                    className="px-4 py-8 text-center text-sm text-gray-500"
+                                    className={styles["empty-cell"]}
                                 >
                                     No items found.
                                 </td>
                             </tr>
                         ) : (
                             paginatedItems.map((item) => (
-                                <tr key={item.id} className="hover:bg-gray-50">
-                                    <td className="px-4 py-3 font-mono text-sm whitespace-nowrap text-gray-900">
-                                        {item.sku}
-                                    </td>
-                                    <td className="px-4 py-3 text-sm text-gray-900">{item.productName}</td>
-                                    <td className="px-4 py-3 text-sm text-gray-500">{item.category}</td>
-                                    <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-900">
-                                        ${item.price.toFixed(2)}
-                                    </td>
-                                    <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-900">
-                                        {item.quantity}
-                                    </td>
-                                    <td className="px-4 py-3 text-sm text-gray-500">{item.supplier}</td>
+                                <tr key={item.id} className={styles["table-row"]}>
+                                    <td className={styles["cell-sku"]}>{item.sku}</td>
+                                    <td className={styles["cell-name"]}>{item.productName}</td>
+                                    <td className={styles["cell-category"]}>{item.category}</td>
+                                    <td className={styles["cell-price-quantity"]}>${item.price.toFixed(2)}</td>
+                                    <td className={styles["cell-price-quantity"]}>{item.quantity}</td>
+                                    <td className={styles["cell-category"]}>{item.supplier}</td>
                                     {currentRole === "staff" && (
-                                        <td className="px-4 py-3 text-sm whitespace-nowrap">
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    onClick={() => onEdit(item)}
-                                                    className="text-xs"
-                                                >
+                                        <td className={styles["cell-actions"]}>
+                                            <div className={styles["actions-wrapper"]}>
+                                                <Button variant="ghost" onClick={() => onEdit(item)} className={styles["edit-button"]}>
                                                     Edit
                                                 </Button>
                                                 <Button
                                                     variant="ghost"
                                                     onClick={() => onDelete(item)}
-                                                    className="text-xs text-red-600 hover:text-red-700"
+                                                    className={styles["delete-button"]}
                                                 >
                                                     Delete
                                                 </Button>
@@ -182,28 +171,28 @@ export default function InventoryTable({ items, onAdd, onEdit, onDelete }: Inven
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className={styles["pagination-container"]}>
                 <span>
                     Showing {Math.min((page - 1) * PAGE_SIZE + 1, filteredAndSorted.length)}-
                     {Math.min(page * PAGE_SIZE, filteredAndSorted.length)} of {filteredAndSorted.length}
                 </span>
-                <div className="flex gap-2">
+                <div className={styles["pagination-controls"]}>
                     <Button
                         variant="secondary"
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="text-xs"
+                        className={styles["edit-button"]}
                     >
                         Previous
                     </Button>
-                    <span className="flex items-center px-2">
+                    <span className={styles["page-info"]}>
                         Page {page} of {totalPages}
                     </span>
                     <Button
                         variant="secondary"
                         onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                         disabled={page === totalPages}
-                        className="text-xs"
+                        className={styles["edit-button"]}
                     >
                         Next
                     </Button>

@@ -9,6 +9,8 @@ import { useInventoryStore } from "@/features/inventory/store"
 
 import { generateStockHistory } from "@/mocks/charts/history"
 
+import styles from "./styles.module.css"
+
 export default function ChartsPage() {
     const items = useInventoryStore((s) => s.items)
     const [mounted, setMounted] = useState(false)
@@ -25,25 +27,23 @@ export default function ChartsPage() {
     if (!mounted) {
         return (
             <DashboardLayout>
-                <div className="flex h-64 items-center justify-center text-sm text-gray-500">Loading...</div>
+                <div className={styles["loading-container"]}>Loading...</div>
             </DashboardLayout>
         )
     }
 
     return (
         <DashboardLayout>
-            <div className="space-y-4">
-                <div>
-                    <h2 className="text-xl font-semibold text-gray-900">Stock Level History</h2>
-                    <p className="text-sm text-gray-500">View quantity trends over the last 30 days for any product.</p>
+            <div className={styles["container"]}>
+                <div className={styles["header"]}>
+                    <h2 className={styles["title"]}>Stock Level History</h2>
+                    <p className={styles["description"]}>View quantity trends over the last 30 days for any product.</p>
                 </div>
 
                 {items.length > 0 ? (
                     <StockChart items={items} historyMap={historyMap} />
                 ) : (
-                    <div className="flex h-64 items-center justify-center rounded-lg border border-gray-200 text-sm text-gray-500">
-                        No inventory items available for charting.
-                    </div>
+                    <div className={styles["empty-container"]}>No inventory items available for charting.</div>
                 )}
             </div>
         </DashboardLayout>

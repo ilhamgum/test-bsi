@@ -5,6 +5,8 @@ import { useState } from "react"
 import Button from "@/components/atoms/button"
 import { Textarea } from "@/components/atoms/input"
 
+import styles from "./styles.module.css"
+
 interface ApprovalActionsProps {
     onApprove: () => void
     onReject: (reason?: string) => void
@@ -22,8 +24,8 @@ export default function ApprovalActions({ onApprove, onReject, isLoading }: Appr
     }
 
     return (
-        <div className="space-y-3">
-            <div className="flex gap-2">
+        <div className={styles["container"]}>
+            <div className={styles["actions-row"]}>
                 <Button onClick={onApprove} isLoading={isLoading}>
                     Approve
                 </Button>
@@ -32,7 +34,7 @@ export default function ApprovalActions({ onApprove, onReject, isLoading }: Appr
                 </Button>
             </div>
             {showRejectReason && (
-                <div className="space-y-2">
+                <div className={styles["reject-form"]}>
                     <Textarea
                         label="Rejection Reason (optional)"
                         value={reason}
@@ -40,8 +42,8 @@ export default function ApprovalActions({ onApprove, onReject, isLoading }: Appr
                         placeholder="Enter reason for rejection..."
                         rows={2}
                     />
-                    <div className="flex gap-2">
-                        <Button variant="danger" onClick={handleReject} className="text-xs">
+                    <div className={styles["reject-actions"]}>
+                        <Button variant="danger" onClick={handleReject} className={styles["btn-xs"]}>
                             Confirm Reject
                         </Button>
                         <Button
@@ -50,7 +52,7 @@ export default function ApprovalActions({ onApprove, onReject, isLoading }: Appr
                                 setShowRejectReason(false)
                                 setReason("")
                             }}
-                            className="text-xs"
+                            className={styles["btn-xs"]}
                         >
                             Cancel
                         </Button>

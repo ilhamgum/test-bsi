@@ -7,6 +7,8 @@ import {
     type TextareaHTMLAttributes,
 } from "react"
 
+import styles from "./styles.module.css"
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string
     error?: string
@@ -16,20 +18,18 @@ export default function Input({ label, error, className = "", id, ...props }: In
     const inputId = id || label?.toLowerCase().replace(/\s+/g, "-")
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className={styles["wrapper"]}>
             {label && (
-                <label htmlFor={inputId} className="text-sm font-medium text-gray-700">
+                <label htmlFor={inputId} className={styles["label"]}>
                     {label}
                 </label>
             )}
             <input
                 id={inputId}
-                className={`rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50 disabled:text-gray-500 ${
-                    error ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
-                } ${className}`}
+                className={`${styles["input"]} ${error ? styles["input-error"] : ""} ${className}`}
                 {...props}
             />
-            {error && <p className="text-xs text-red-600">{error}</p>}
+            {error && <p className={styles["error-text"]}>{error}</p>}
         </div>
     )
 }
@@ -45,17 +45,15 @@ export function Select({ label, error, options, className = "", id, ...props }: 
     const selectId = id || label?.toLowerCase().replace(/\s+/g, "-")
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className={styles["wrapper"]}>
             {label && (
-                <label htmlFor={selectId} className="text-sm font-medium text-gray-700">
+                <label htmlFor={selectId} className={styles["label"]}>
                     {label}
                 </label>
             )}
             <select
                 id={selectId}
-                className={`rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50 ${
-                    error ? "border-red-500" : ""
-                } ${className}`}
+                className={`${styles["select"]} ${error ? styles["select-error"] : ""} ${className}`}
                 {...props}
             >
                 {options.map((opt) => (
@@ -64,7 +62,7 @@ export function Select({ label, error, options, className = "", id, ...props }: 
                     </option>
                 ))}
             </select>
-            {error && <p className="text-xs text-red-600">{error}</p>}
+            {error && <p className={styles["error-text"]}>{error}</p>}
         </div>
     )
 }
@@ -78,20 +76,18 @@ export function Textarea({ label, error, className = "", id, ...props }: Textare
     const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-")
 
     return (
-        <div className="flex flex-col gap-1">
+        <div className={styles["wrapper"]}>
             {label && (
-                <label htmlFor={textareaId} className="text-sm font-medium text-gray-700">
+                <label htmlFor={textareaId} className={styles["label"]}>
                     {label}
                 </label>
             )}
             <textarea
                 id={textareaId}
-                className={`rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:bg-gray-50 ${
-                    error ? "border-red-500" : ""
-                } ${className}`}
+                className={`${styles["textarea"]} ${error ? styles["textarea-error"] : ""} ${className}`}
                 {...props}
             />
-            {error && <p className="text-xs text-red-600">{error}</p>}
+            {error && <p className={styles["error-text"]}>{error}</p>}
         </div>
     )
 }

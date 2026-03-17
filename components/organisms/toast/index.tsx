@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useState } from "react"
 
+import styles from "./styles.module.css"
+
 type ToastType = "success" | "error" | "info"
 
 interface Toast {
@@ -34,19 +36,19 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     const typeStyles: Record<ToastType, string> = {
-        success: "bg-green-600",
-        error: "bg-red-600",
-        info: "bg-blue-600",
+        success: styles["success"],
+        error: styles["error"],
+        info: styles["info"],
     }
 
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <div className="fixed right-4 bottom-4 z-100 flex flex-col gap-2">
+            <div className={styles["container"]}>
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`rounded-md px-4 py-3 text-sm text-white shadow-lg ${typeStyles[toast.type]}`}
+                        className={`${styles["toast"]} ${typeStyles[toast.type]}`}
                         role="alert"
                     >
                         {toast.message}

@@ -8,6 +8,8 @@ import DiffView from "@/components/organisms/diff-view"
 
 import { PendingRequest } from "@/features/inventory/model"
 
+import styles from "./styles.module.css"
+
 interface ApprovalListProps {
     requests: PendingRequest[]
     onApprove: (requestId: string) => void
@@ -42,9 +44,9 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
                 : request.originalData?.productName || "Unknown"
 
         return (
-            <div key={request.id} className="border-b border-gray-200 last:border-b-0">
+            <div key={request.id} className={styles["row-wrapper"]}>
                 <div
-                    className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-gray-50"
+                    className={styles["row-summary"]}
                     onClick={() => setExpandedId(isExpanded ? null : request.id)}
                     role="button"
                     tabIndex={0}
@@ -55,21 +57,17 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
                     }}
                     aria-expanded={isExpanded}
                 >
-                    <div className="flex items-center gap-3">
+                    <div className={styles["summary-left"]}>
                         <Badge variant={typeBadgeVariant(request.type)}>{request.type.toUpperCase()}</Badge>
-                        <span className="text-sm font-medium text-gray-900">{itemName}</span>
+                        <span className={styles["item-name"]}>{itemName}</span>
                         {request.status !== "pending" && (
-                            <Badge variant={request.status === "approved" ? "success" : "danger"}>
-                                {request.status}
-                            </Badge>
+                            <Badge variant={request.status === "approved" ? "success" : "danger"}>{request.status}</Badge>
                         )}
                     </div>
-                    <div className="flex items-center gap-3">
-                        <span className="text-xs text-gray-500">
-                            {new Date(request.createdAt).toLocaleDateString()}
-                        </span>
+                    <div className={styles["summary-right"]}>
+                        <span className={styles["timestamp"]}>{new Date(request.createdAt).toLocaleDateString()}</span>
                         <svg
-                            className={`h-4 w-4 text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                            className={`${styles["expand-icon"]} ${isExpanded ? "rotate-180" : ""}`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -80,47 +78,45 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
                 </div>
 
                 {isExpanded && (
-                    <div className="space-y-4 border-t border-gray-100 bg-gray-50 px-4 py-4">
+                    <div className={styles["row-details"]}>
                         {request.type === "create" && (
-                            <div className="space-y-2">
-                                <h4 className="text-sm font-medium text-gray-700">New Item Details:</h4>
-                                <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div className={styles["details-group"]}>
+                                <h4 className={styles["details-title"]}>New Item Details:</h4>
+                                <div className={styles["details-grid"]}>
                                     <div>
-                                        <span className="text-gray-500">SKU:</span> {request.payload.sku}
+                                        <span className={styles["label"]}>SKU:</span> {request.payload.sku}
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Name:</span> {request.payload.productName}
+                                        <span className={styles["label"]}>Name:</span> {request.payload.productName}
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Category:</span> {request.payload.category}
+                                        <span className={styles["label"]}>Category:</span> {request.payload.category}
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Price:</span> $
+                                        <span className={styles["label"]}>Price:</span> $
                                         {Number(request.payload.price).toFixed(2)}
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Quantity:</span> {request.payload.quantity}
+                                        <span className={styles["label"]}>Quantity:</span> {request.payload.quantity}
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Supplier:</span> {request.payload.supplier}
+                                        <span className={styles["label"]}>Supplier:</span> {request.payload.supplier}
                                     </div>
                                 </div>
                             </div>
                         )}
 
-                        {request.type === "update" && (
-                            <DiffView original={request.originalData} updated={request.payload} />
-                        )}
+                        {request.type === "update" && <DiffView original={request.originalData} updated={request.payload} />}
 
                         {request.type === "delete" && request.originalData && (
-                            <div className="text-sm text-red-600">
+                            <div className={styles["delete-warning"]}>
                                 This will permanently delete <strong>{request.originalData.productName}</strong> (SKU:{" "}
                                 {request.originalData.sku})
                             </div>
                         )}
 
                         {request.rejectionReason && (
-                            <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
+                            <div className={styles["rejection-notice"]}>
                                 <strong>Rejection reason:</strong> {request.rejectionReason}
                             </div>
                         )}
@@ -139,18 +135,14 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
     }
 
     return (
-        <div className="space-y-6">
+        <div className={styles["container"]}>
             {/* Pending requests */}
             <div>
-                <h3 className="mb-3 text-sm font-semibold text-gray-700">
-                    Pending Requests ({pendingRequests.length})
-                </h3>
+                <h3 className={styles["section-title"]}>Pending Requests ({pendingRequests.length})</h3>
                 {pendingRequests.length === 0 ? (
-                    <p className="rounded-md border border-gray-200 px-4 py-8 text-center text-sm text-gray-500">
-                        No pending requests.
-                    </p>
+                    <p className={styles["empty-state"]}>No pending requests.</p>
                 ) : (
-                    <div className="rounded-lg border border-gray-200 bg-white">
+                    <div className={styles["list-container"]}>
                         {pendingRequests.map((r) => renderRequestRow(r, true))}
                     </div>
                 )}
@@ -159,10 +151,8 @@ export default function ApprovalList({ requests, onApprove, onReject, isLoading 
             {/* Processed requests */}
             {processedRequests.length > 0 && (
                 <div>
-                    <h3 className="mb-3 text-sm font-semibold text-gray-700">
-                        Processed Requests ({processedRequests.length})
-                    </h3>
-                    <div className="rounded-lg border border-gray-200 bg-white">
+                    <h3 className={styles["section-title"]}>Processed Requests ({processedRequests.length})</h3>
+                    <div className={styles["list-container"]}>
                         {processedRequests.map((r) => renderRequestRow(r, false))}
                     </div>
                 </div>

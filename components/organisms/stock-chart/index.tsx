@@ -9,6 +9,8 @@ import { Select } from "@/components/atoms/input"
 import { StockHistory } from "@/features/charts/model"
 import { StockItem } from "@/features/inventory/model"
 
+import styles from "./styles.module.css"
+
 interface StockChartProps {
     items: StockItem[]
     historyMap: Record<string, StockHistory[]>
@@ -30,8 +32,8 @@ export default function StockChart({ items, historyMap }: StockChartProps) {
     const selectedItem = items.find((i) => i.id === selectedItemId)
 
     return (
-        <div className="space-y-4">
-            <div className="max-w-md">
+        <div className={styles["container"]}>
+            <div className={styles["select-wrapper"]}>
                 <Select
                     label="Select Product"
                     options={options}
@@ -41,13 +43,13 @@ export default function StockChart({ items, historyMap }: StockChartProps) {
             </div>
 
             {selectedItem && (
-                <div className="rounded-md bg-gray-50 p-3 text-sm text-gray-600">
+                <div className={styles["info-box"]}>
                     <strong>{selectedItem.productName}</strong> — Current Stock: {selectedItem.quantity} | Category:{" "}
                     {selectedItem.category} | Supplier: {selectedItem.supplier}
                 </div>
             )}
 
-            <div className="h-80 w-full rounded-lg border border-gray-200 bg-white p-4">
+            <div className={styles["chart-container"]}>
                 {chartData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={chartData}>
@@ -82,9 +84,7 @@ export default function StockChart({ items, historyMap }: StockChartProps) {
                         </LineChart>
                     </ResponsiveContainer>
                 ) : (
-                    <div className="flex h-full items-center justify-center text-sm text-gray-500">
-                        No history data available for this product.
-                    </div>
+                    <div className={styles["empty-state"]}>No history data available for this product.</div>
                 )}
             </div>
         </div>

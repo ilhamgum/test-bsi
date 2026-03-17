@@ -1,0 +1,21 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply space-y-3;
+}
+
+.actions-row {
+    @apply flex gap-2;
+}
+
+.reject-form {
+    @apply space-y-2;
+}
+
+.reject-actions {
+    @apply flex gap-2;
+}
+
+.btn-xs {
+    @apply text-xs;
+}

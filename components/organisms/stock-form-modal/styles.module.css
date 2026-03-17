@@ -1,0 +1,13 @@
+@reference "../../../app/globals.css";
+
+.form {
+    @apply space-y-4;
+}
+
+.grid-cols-2 {
+    @apply grid grid-cols-2 gap-4;
+}
+
+.actions-container {
+    @apply flex justify-end gap-3 pt-2;
+}

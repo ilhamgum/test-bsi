@@ -1,0 +1,21 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply inline-flex items-center gap-1 text-left text-xs font-medium tracking-wider text-gray-500 uppercase hover:text-gray-700;
+}
+
+.icon-wrapper {
+    @apply flex flex-col;
+}
+
+.icon {
+    @apply h-3 w-3;
+}
+
+.icon-active {
+    @apply text-blue-600;
+}
+
+.icon-inactive {
+    @apply text-gray-300;
+}

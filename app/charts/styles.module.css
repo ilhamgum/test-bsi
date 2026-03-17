@@ -1,0 +1,25 @@
+@reference "../globals.css";
+
+.loading-container {
+    @apply flex h-64 items-center justify-center text-sm text-gray-500;
+}
+
+.container {
+    @apply space-y-4;
+}
+
+.header {
+    @apply space-y-1;
+}
+
+.title {
+    @apply text-xl font-semibold text-gray-900;
+}
+
+.description {
+    @apply text-sm text-gray-500;
+}
+
+.empty-container {
+    @apply flex h-64 items-center justify-center rounded-lg border border-gray-200 text-sm text-gray-500;
+}

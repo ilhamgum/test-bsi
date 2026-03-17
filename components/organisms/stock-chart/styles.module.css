@@ -1,0 +1,21 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply space-y-4;
+}
+
+.select-wrapper {
+    @apply max-w-md;
+}
+
+.info-box {
+    @apply rounded-md bg-gray-50 p-3 text-sm text-gray-600;
+}
+
+.chart-container {
+    @apply h-80 w-full rounded-lg border border-gray-200 bg-white p-4;
+}
+
+.empty-state {
+    @apply flex h-full items-center justify-center text-sm text-gray-500;
+}

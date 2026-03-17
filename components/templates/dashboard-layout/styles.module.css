@@ -1,0 +1,13 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply flex h-screen flex-col;
+}
+
+.content-wrapper {
+    @apply flex flex-1 overflow-hidden;
+}
+
+.main {
+    @apply flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-6;
+}

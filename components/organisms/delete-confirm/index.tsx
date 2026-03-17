@@ -5,6 +5,8 @@ import Modal from "@/components/organisms/modal"
 
 import { StockItem } from "@/features/inventory/model"
 
+import styles from "./styles.module.css"
+
 interface DeleteConfirmProps {
     isOpen: boolean
     onClose: () => void
@@ -18,14 +20,14 @@ export default function DeleteConfirm({ isOpen, onClose, onConfirm, item, isLoad
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Delete Stock Item">
-            <div className="space-y-4">
-                <p className="text-sm text-gray-600">
+            <div className={styles["container"]}>
+                <p className={styles["description"]}>
                     Are you sure you want to request deletion of <strong>{item.productName}</strong> (SKU: {item.sku})?
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className={styles["disclaimer"]}>
                     This will create a pending deletion request that must be approved by an Officer.
                 </p>
-                <div className="flex justify-end gap-3">
+                <div className={styles["actions-wrapper"]}>
                     <Button variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

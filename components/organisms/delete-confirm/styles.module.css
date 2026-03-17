@@ -1,0 +1,17 @@
+@reference "../../../app/globals.css";
+
+.container {
+    @apply space-y-4;
+}
+
+.description {
+    @apply text-sm text-gray-600;
+}
+
+.disclaimer {
+    @apply text-sm text-gray-500;
+}
+
+.actions-wrapper {
+    @apply flex justify-end gap-3;
+}
